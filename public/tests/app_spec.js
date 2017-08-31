@@ -28,6 +28,18 @@ describe('LearnJS', function() {
     expect(learnjs.showView).toHaveBeenCalledWith(window.location.hash);
   });
 
+  describe('buildCorrectFlash', function() {
+    it('has a link to the next problem if any', function() {
+      view = learnjs.buildCorrectFlash(1);
+      expect(view.find('a').attr('href')).toEqual('#problem-2');
+    });
+
+    it('has a link to the landing page if problems finished', function() {
+      view = learnjs.buildCorrectFlash(learnjs.problems.length);
+      expect(view.find('a').attr('href')).toEqual('');
+    });
+  });
+
   describe('problem view', function() {
     var view;
     beforeEach(function() {
@@ -42,7 +54,7 @@ describe('LearnJS', function() {
       it('can check a correct answer by hitting a button', function() {
         view.find('.answer').val('true');
         view.find('.check-btn').click();
-        expect(view.find('.result').text()).toEqual('Correct!');
+        expect(view.find('.result span').text()).toEqual('Correct!');
       });
 
       it('rejects an incorrect answer', function() {
