@@ -1,3 +1,5 @@
+conf/s3/*/endpoint.txt
+
 .DS_Store
 dist
 working
