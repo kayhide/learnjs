@@ -1,4 +1,8 @@
 conf/s3/*/endpoint.txt
+conf/cognito/identity_pools/*/config.json
+conf/cognito/identity_pools/*/pool_info.json
+conf/cognito/identity_pools/*/assume_role_policy.json
+conf/cognito/identity_pools/*/role_info.json
 
 .DS_Store
 dist
