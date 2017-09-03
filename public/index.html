@@ -7,6 +7,8 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.2/normalize.min.css'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css'>
     <script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="1017194482713-bimp2bhg7j603qn9qa2ht3ofavcitanj.apps.googleusercontent.com" />
     <script src='/vendor.js'></script>
     <script src='/app.js'></script>
     <style type="text/css" media="all">
@@ -43,6 +45,10 @@
      .nav-container a {
          color: white;
      }
+     .navbar-padding {
+         padding-top: 7px;
+         display: inline-block;
+     }
      .text-lg {
          font-size: 32px;
      }
@@ -55,6 +61,11 @@
           <li><a class="text-lg" href="#">LearnJS</a></li>
           <li><a href="#problem-1">Start</a></li>
         </ul>
+        <div class="four columns">
+          <span class="navbar-padding u-pull-right">
+            <span class="g-signin2" data-onsuccess="googleSignIn"></span>
+          </span>
+        </div>
       </div>
       <div class="view-container container">
       </div>
