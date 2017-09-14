@@ -66,6 +66,7 @@ learnjs.problemView = function(data) {
   }
 
   function checkAnswerClick() {
+    displayPopularAnswers();
     if (checkAnswer()) {
       var correctFlash = learnjs.buildCorrectFlash(problemNumber);
       learnjs.flashElement(resultFlash, correctFlash);
@@ -75,6 +76,20 @@ learnjs.problemView = function(data) {
     }
     return false;
   }
+
+  function displayPopularAnswers() {
+    learnjs.popularAnswers(problemNumber).then(function(data) {
+      var v = view.find('.popular-answers');
+      var content = learnjs.template('popular-answers-content');
+      if (data.StatusCode === 200) {
+        content.find('pre code').text(data.Payload);
+      } else {
+        content.find('pre').text("Failed to fetch popular answers.");
+      }
+      learnjs.flashElement(v, content);
+    });
+  }
+
 
   if (problemNumber < learnjs.problems.length) {
     var buttonItem = learnjs.template('skip-btn');
@@ -179,7 +194,7 @@ learnjs.awsRefresh = function() {
   return deferred.promise();
 }
 
-learnjs.sendDbRequest = function(req, retry) {
+learnjs.sendAwsRequest = function(req, retry) {
   var promise = new $.Deferred();
   req.on('error', function(error) {
     if (error.code === 'CredentialsError') {
@@ -212,7 +227,7 @@ learnjs.saveAnswer = function(problemId, answer) {
         answer: answer
       }
     };
-    return learnjs.sendDbRequest(db.put(item), function() {
+    return learnjs.sendAwsRequest(db.put(item), function() {
       return learnjs.saveAnswer(problemId, answer);
     });
   });
@@ -228,7 +243,7 @@ learnjs.fetchAnswer = function(problemId) {
         problemId: problemId
       }
     };
-    return learnjs.sendDbRequest(db.get(item), function() {
+    return learnjs.sendAwsRequest(db.get(item), function() {
       return learnjs.fetchAnswer(problemId);
     });
   });
@@ -243,8 +258,21 @@ learnjs.countAnswers = function(problemId) {
       FilterExpression: 'problemId = :problemId',
       ExpressionAttributeValues: {':problemId': problemId}
     };
-    return learnjs.sendDbRequest(db.scan(params), function() {
+    return learnjs.sendAwsRequest(db.scan(params), function() {
       return learnjs.countAnswers(problemId);
     });
   });
 };
+
+learnjs.popularAnswers = function(problemId) {
+  return learnjs.identity.then(function() {
+    var lambda = new AWS.Lambda();
+    var params = {
+      FunctionName: 'popularAnswers',
+      Payload: JSON.stringify({problemNumber: problemId})
+    };
+    return learnjs.sendAwsRequest(lambda.invoke(params), function() {
+      return learnjs.popularAnswers(problemId);
+    });
+  });
+}
