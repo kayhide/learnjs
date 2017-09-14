@@ -3,6 +3,9 @@ conf/cognito/identity_pools/*/config.json
 conf/cognito/identity_pools/*/pool_info.json
 conf/cognito/identity_pools/*/assume_role_policy.json
 conf/cognito/identity_pools/*/role_info.json
+conf/dynamodb/tables/*/role_policy.json
+conf/dynamodb/tables/*/table_info.json
+conf/dynamodb/tables/*/table_policy_condition.json
 
 .DS_Store
 dist
