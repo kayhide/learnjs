@@ -6,6 +6,8 @@ conf/cognito/identity_pools/*/role_info.json
 conf/dynamodb/tables/*/role_policy.json
 conf/dynamodb/tables/*/table_info.json
 conf/dynamodb/tables/*/table_policy_condition.json
+conf/iam/roles/*/info.json
+conf/lambda/functions/*/info.json
 
 .DS_Store
 dist
